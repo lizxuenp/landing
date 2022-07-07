@@ -8,7 +8,7 @@ export default function Document() {
                 <link href="https://fonts.googleapis.com/css2?family=Potta+One&display=swap" rel="stylesheet" />
                 <link href="https://fonts.googleapis.com/css2?family=Moo+Lah+Lah&display=swap" rel="stylesheet" />
             </Head>
-            <body className='min-h-screen bg-white-liz'>
+            <body className='bg-white-liz'>
                 <Main />
                 <NextScript />
             </body>
