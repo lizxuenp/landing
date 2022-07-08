@@ -70,37 +70,33 @@ export default function Layout({ children }: LayoutProps) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <LayoutContext.Provider value={{ app, db }}>
-                <div className='container mx-auto flex flex-col'>
-                    <div className='flex'>
-                        <div className='pt-[90px]'>
-                            <div className='flex flex-col items-center justify-evenly bg-white w-16 py-8 border shadow-md rounded-xl h-[200px]'>
-                                <div className='w-14 h-14 flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
-                                    <HomeIcon className='h-6' />
-                                </div>
-                                <div className='w-14 h-14 flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
-                                    <HomeIcon className='h-6' />
-                                </div>
-                            </div>
+                <div className='fixed z-50 top-[108px] left-[64px]'>
+                    <div className='flex flex-col items-center justify-evenly bg-white w-16 py-8 border shadow-md rounded-xl h-[200px]'>
+                        <div className='w-14 h-14 flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
+                            <HomeIcon className='h-6' />
                         </div>
+                        <div className='w-14 h-14 flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
+                            <HomeIcon className='h-6' />
+                        </div>
+                    </div>
+                </div>
+                <div className='fixed z-50 top-[108px] right-[64px] flex'>
+                    <div className='flex flex-col'>
+                        <div className='bg-white w-16 h-12 border shadow-md rounded-xl flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
+                            <SunIcon className='h-6' />
+                        </div>
+                    </div>
+                </div>
 
-
-                        <div className='grow h-screen overflow-y-auto scrollbar-hide'>
-                            <div className='h-30 flex items-center]'>
-                                <div className='text-[60px] text-black-liz font-moo-lah-lah hover:text-yellow-liz cursor-pointer'>liz</div>
-                            </div>
+                <div>
+                    <div className='h-screen overflow-y-scroll scrollbar-hide'>
+                        <div className='flex items-center pl-[64px]'>
+                            <div className='text-[72px] text-black-liz font-moo-lah-lah hover:text-yellow-liz cursor-pointer'>liz</div>
+                        </div>
+                        <div className='px-[120px]'>
                             {children}
                         </div>
-
-                        <div className='pt-[90px]'>
-                            <div className='flex flex-col'>
-                                <div className='bg-white w-16 h-12 border shadow-md rounded-xl flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
-                                    <SunIcon className='h-6' />
-                                </div>
-                            </div>
-                        </div>
-
                     </div>
-
                 </div>
             </LayoutContext.Provider>
         </>
