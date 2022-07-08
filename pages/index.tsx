@@ -1,5 +1,7 @@
 import type { NextPage } from 'next';
 import Image from 'next/image';
+import sec from '../public/cyber-4511128_960_720.jpg';
+import IOT from '../public/online.jpg';
 import IMG4 from '../public/IMG4-removebg-preview.png';
 import { BeakerIcon } from '@heroicons/react/solid';
 
@@ -8,7 +10,7 @@ const Home: NextPage = () => {
     <div className='space-y-6 pb-8'>
       <div className='flex flex-col md:grid md:grid-cols-5 gap-6 px-4'>
         <div className='h-64 md:col-span-3 rounded-3xl bg-cyan-400 flex items-center justify-center'>
-          x
+
         </div>
         <div className='h-64 md:col-span-2 rounded-3xl bg-gradient-to-r from-rose-200 to-rose-300 relative'>
           <div className='relative w-[190px] h-full left-0'>
@@ -17,18 +19,19 @@ const Home: NextPage = () => {
         </div>
       </div>
       <div>
-        <BeakerIcon className='h-6 pl-6 text-fuchsia-400'/>
+        <BeakerIcon className='h-6 pl-6 text-fuchsia-400' />
       </div>
       <div className='grid grid-cols-3 gap-6 px-4'>
+        
         <div className='bg-white rounded-3xl h-[200px]'>
-          <div className='bg-blue-liz rounded-3xl h-[160px]'>
-
+          <div className='h-[160px] w-full relative'>
+            <Image src={sec} alt='sec' layout='fill' objectFit='cover' className='rounded-3xl' />
           </div>
         </div>
 
         <div className='bg-white rounded-3xl h-[200px]'>
-          <div className='bg-blue-liz rounded-3xl h-[160px]'>
-
+          <div className='h-[160px] w-full relative'>
+            <Image src={IOT} alt='IOT' layout='fill' objectFit='cover' className='rounded-3xl' />
           </div>
         </div>
 
