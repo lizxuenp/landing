@@ -3,8 +3,7 @@ import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth, onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import Head from 'next/head';
-import React, { useEffect, useRef } from 'react';
-import { SunIcon } from '@heroicons/react/solid';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import LeftBar from './leftbar';
 import RightBar from './rightbar';
 
@@ -38,18 +37,16 @@ export default function Layout({ children }: LayoutProps) {
         if (didRunRef.current === false) {
             didRunRef.current = true;
 
-            console.log('Layout/useEffect');
-
             const auth = getAuth();
             onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    console.log('Layout/useEffect/onAuthStateChanged/logged-in', user);
+                    // console.log('Layout/useEffect/onAuthStateChanged/logged-in', user);
                 } else {
-                    console.log('Layout/useEffect/onAuthStateChanged/logged-out');
+                    // console.log('Layout/useEffect/onAuthStateChanged/logged-out');
                     if (!auth.currentUser) {
                         signInAnonymously(auth)
                             .then(() => {
-                                console.log('Layout/useEffect/onAuthStateChanged/signInAnonymously', auth.currentUser);
+                                // console.log('Layout/useEffect/onAuthStateChanged/signInAnonymously', auth.currentUser);
                             })
                             .catch((error) => {
                                 const errorCode = error.code;
@@ -61,6 +58,23 @@ export default function Layout({ children }: LayoutProps) {
             });
         }
     }, []);
+
+    if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+        const didRunLERef = useRef(false);
+        useLayoutEffect(() => {
+            if (didRunLERef.current === false) {
+                didRunLERef.current = true;
+                // if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+                // }
+            }
+        }, []);
+    };
+
 
     return (
         <>

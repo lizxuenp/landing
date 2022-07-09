@@ -1,6 +1,6 @@
 import { ArrowCircleLeftIcon, SunIcon, MoonIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
+import { useLayoutEffect, useRef, useState } from 'react';
 
 export default function RightBar() {
     const router = useRouter();
@@ -12,7 +12,7 @@ export default function RightBar() {
                     router.asPath !== '/' &&
                     <div
                         className='bg-white text-gray-light-liz hover:text-blue-liz dark:bg-gray-dark-liz dark:text-white-liz dark:hover:text-yellow-liz w-16 h-12 shadow-md rounded-xl flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'
-                        onClick={() => {window.history.go(-1); return false;}}
+                        onClick={() => { window.history.go(-1); return false; }}
                     >
                         <ArrowCircleLeftIcon className='h-6' />
                     </div>
@@ -26,6 +26,20 @@ export default function RightBar() {
 
 const DarkModeButton = () => {
     const [dark, setDark] = useState(false);
+
+    if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+        const didRunLERef = useRef(false);
+        useLayoutEffect(() => {
+            if (didRunLERef.current === false) {
+                didRunLERef.current = true;
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    setDark(true);
+                } else {
+                    setDark(false);
+                }
+            }
+        }, []);
+    };
 
     const isDarkMode = () => {
         if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
