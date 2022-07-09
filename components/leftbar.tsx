@@ -1,12 +1,8 @@
 import { HomeIcon, ArrowCircleLeftIcon, DotsHorizontalIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
 
-type LeftBarProps = {
-    usePreviousRoute: () => string;
-}
-export default function LeftBar({ usePreviousRoute }: LeftBarProps) {
+export default function LeftBar() {
     const router = useRouter();
-    const prevPath = usePreviousRoute();
 
     return (
         <div className='fixed z-50 top-[108px] left-[64px]'>
@@ -14,9 +10,9 @@ export default function LeftBar({ usePreviousRoute }: LeftBarProps) {
                 bg-white dark:bg-gray-dark-liz'
             >
                 {
-                    prevPath === '/' && <LeftBarIcon Icon={ArrowCircleLeftIcon} onClick={() => router.back()} />
+                    router.asPath !== '/' && <LeftBarIcon Icon={ArrowCircleLeftIcon} onClick={() => {window.history.go(-1); return false;}} />
                 }
-                <LeftBarIcon Icon={HomeIcon} />
+                <LeftBarIcon Icon={HomeIcon} onClick={() => router.push('/')} />
                 <LeftBarIcon Icon={DotsHorizontalIcon} />
             </div>
         </div>

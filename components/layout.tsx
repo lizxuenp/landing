@@ -29,10 +29,9 @@ const LayoutContext = React.createContext<{ app: FirebaseApp, db: Firestore }>({
 
 type LayoutProps = {
     children: React.ReactNode;
-    usePreviousRoute: () => string;
 }
 
-export default function Layout({ children, usePreviousRoute }: LayoutProps) {
+export default function Layout({ children }: LayoutProps) {
     const didRunRef = useRef(false);
 
     useEffect(() => {
@@ -71,8 +70,8 @@ export default function Layout({ children, usePreviousRoute }: LayoutProps) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <LayoutContext.Provider value={{ app, db }}>
-                <LeftBar usePreviousRoute={usePreviousRoute} />
-                <RightBar usePreviousRoute={usePreviousRoute} />
+                <LeftBar />
+                <RightBar />
                 <div>
                     <div className='h-screen overflow-y-scroll scrollbar-hide'>
                         <div className='flex items-center pl-[64px]'>
