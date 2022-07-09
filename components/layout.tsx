@@ -4,7 +4,9 @@ import { getAnalytics } from 'firebase/analytics';
 import { getAuth, onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import Head from 'next/head';
 import React, { useEffect, useRef } from 'react';
-import { HomeIcon, SunIcon } from '@heroicons/react/solid';
+import { SunIcon } from '@heroicons/react/solid';
+import LeftBar from './leftbar';
+import RightBar from './rightbar';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDbxrdE4Yh-4CVNrtcUT3jrGgn_uiOcmd8",
@@ -26,12 +28,11 @@ if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
 const LayoutContext = React.createContext<{ app: FirebaseApp, db: Firestore }>({ app, db });
 
 type LayoutProps = {
-    children: React.ReactNode
+    children: React.ReactNode;
+    usePreviousRoute: () => string;
 }
 
-export default function Layout({ children }: LayoutProps) {
-    console.log('Layout');
-
+export default function Layout({ children, usePreviousRoute }: LayoutProps) {
     const didRunRef = useRef(false);
 
     useEffect(() => {
@@ -70,24 +71,8 @@ export default function Layout({ children }: LayoutProps) {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <LayoutContext.Provider value={{ app, db }}>
-                <div className='fixed z-50 top-[108px] left-[64px]'>
-                    <div className='flex flex-col items-center justify-evenly bg-white w-16 py-8 border shadow-md rounded-xl h-[200px]'>
-                        <div className='w-14 h-14 flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
-                            <HomeIcon className='h-6' />
-                        </div>
-                        <div className='w-14 h-14 flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
-                            <HomeIcon className='h-6' />
-                        </div>
-                    </div>
-                </div>
-                <div className='fixed z-50 top-[108px] right-[64px] flex'>
-                    <div className='flex flex-col'>
-                        <div className='bg-white w-16 h-12 border shadow-md rounded-xl flex items-center justify-center cursor-pointer text-gray-light-liz hover:text-blue-liz'>
-                            <SunIcon className='h-6' />
-                        </div>
-                    </div>
-                </div>
-
+                <LeftBar usePreviousRoute={usePreviousRoute} />
+                <RightBar usePreviousRoute={usePreviousRoute} />
                 <div>
                     <div className='h-screen overflow-y-scroll scrollbar-hide'>
                         <div className='flex items-center pl-[64px]'>
