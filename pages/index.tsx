@@ -27,7 +27,7 @@ const Home: NextPage = () => {
       <div className='grid grid-cols-3 gap-6 px-8'>
 
         <Link href='security'>
-          <a className='bg-white rounded-3xl h-[200px]'>
+          <a className='bg-white dark:bg-gray-700 shadow-md dark:shadow-xl rounded-3xl h-[200px]'>
             <div className='h-[160px] w-full relative'>
               <Image src={sec} alt='sec' layout='fill' objectFit='cover' className='rounded-3xl' />
             </div>
@@ -41,7 +41,7 @@ const Home: NextPage = () => {
         </div>
 
         <Link href='quote'>
-          <a className='bg-white rounded-3xl h-[200px]'>
+          <a className='bg-white dark:bg-gray-700 shadow-md dark:shadow-xl rounded-3xl h-[200px]'>
             <div className='h-[160px] w-full relative'>
               <Image src={quote} alt='quote' layout='fill' objectFit='cover' className='rounded-3xl' />
             </div>

@@ -76,7 +76,7 @@ export default function Layout({ children, usePreviousRoute }: LayoutProps) {
                 <div>
                     <div className='h-screen overflow-y-scroll scrollbar-hide'>
                         <div className='flex items-center pl-[64px]'>
-                            <div className='text-[72px] text-black-liz font-moo-lah-lah hover:text-yellow-liz cursor-pointer'>liz</div>
+                            <div className='text-[72px] text-black-liz hover:text-yellow-liz dark:text-white-liz dark:hover:text-yellow-liz font-moo-lah-lah  cursor-pointer'>liz</div>
                         </div>
                         <div className='px-[120px]'>
                             {children}

@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: 'class',
   content: [
     "./pages/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
@@ -15,7 +16,7 @@ module.exports = {
         'yellow-liz': '#ffbb0c',
         'blue-liz': '#4266f4',
         'gray-light-liz': '#c7c9e2',
-        'gray-dark-liz': '#8a8c97', 
+        'gray-dark-liz': '#8a8c97',
         'black-liz': '#242731',
         'white-liz': '#efefef'       
       }

@@ -7,13 +7,12 @@ import { useEffect, useRef } from 'react';
 function MyApp({ Component, pageProps }: AppProps) {
   const usePreviousRoute = () => {
     const { asPath } = useRouter();
-  
     const ref = useRef<string>('');
-  
+
     useEffect(() => {
-      ref.current = asPath;
+      ref.current = asPath; 
     }, [asPath]);
-  
+
     return ref.current;
   };
 
