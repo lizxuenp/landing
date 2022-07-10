@@ -9,27 +9,12 @@ import spin from '../public/spin.svg';
 
 import { BeakerIcon, DotsCircleHorizontalIcon } from '@heroicons/react/solid';
 import Link from 'next/link';
-import Like from '../components/Like';
+import Like from '../components/like';
 import { useRouter } from 'next/router';
-
-import { getStorage, ref, getDownloadURL } from "firebase/storage";
-import { useEffect, useRef } from 'react';
+import Card from '../components/card';
 
 const Home: NextPage = () => {
   const router = useRouter();
-  const imgRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    const storage = getStorage();
-    getDownloadURL(ref(storage, 'posts/photo-1492376791813-ee6dbb35caa3.avif'))
-      .then((url) => {
-        console.log(url);
-        if (imgRef.current) imgRef.current.src = url;
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  }, []);
 
   return (
     <div className='space-y-6 pb-8'>
@@ -69,18 +54,6 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <div className='bg-white dark:bg-gray-700 shadow-md dark:shadow-xl rounded-3xl h-[200px]'>
-          <div className='h-[160px] w-full relative cursor-pointer' onClick={() => router.push('/quote')}>
-            {/* <Image ref={imgRef} src={IOT} alt='quote' layout='fill' objectFit='cover' className='rounded-3xl' /> */}
-            <img ref={imgRef} src={spin} alt='quote' className='rounded-3xl object-cover h-[160px] w-full' />
-          </div>
-          <div className='flex items-center justify-between h-[40px] px-4'>
-            <Like like={false} />
-            <DotsCircleHorizontalIcon className='h-6 cursor-pointer text-gray-300 hover:text-yellow-liz' onClick={() => router.push('/quote')} />
-          </div>
-        </div>
-
-
         <div className='bg-white rounded-3xl h-[200px]'>
           <div className='bg-blue-liz rounded-3xl h-[160px]'>
 
@@ -103,6 +76,7 @@ const Home: NextPage = () => {
           </div>
         </div>
 
+        <Card />
       </div>
 
     </div>

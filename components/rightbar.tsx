@@ -1,6 +1,6 @@
 import { ArrowCircleLeftIcon, SunIcon, MoonIcon } from '@heroicons/react/solid';
 import { useRouter } from 'next/router';
-import { useLayoutEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
 export default function RightBar() {
     const router = useRouter();
@@ -24,22 +24,25 @@ export default function RightBar() {
     );
 }
 
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
 const DarkModeButton = () => {
     const [dark, setDark] = useState(false);
 
-    if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
-        const didRunLERef = useRef(false);
-        useLayoutEffect(() => {
-            if (didRunLERef.current === false) {
-                didRunLERef.current = true;
+    const didRunLERef = useRef(false);
+    useIsomorphicLayoutEffect(() => {
+        if (didRunLERef.current === false) {
+            didRunLERef.current = true;
+            if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
                 if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
                     setDark(true);
                 } else {
                     setDark(false);
                 }
             }
-        }, []);
-    };
+        }
+    }, []);
+
 
     const isDarkMode = () => {
         if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
