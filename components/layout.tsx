@@ -3,10 +3,10 @@ import { getFirestore, Firestore } from 'firebase/firestore';
 import { getAnalytics } from 'firebase/analytics';
 import { getAuth, onAuthStateChanged, signInAnonymously } from "firebase/auth";
 import Head from 'next/head';
-import React, { useEffect, useRef } from 'react';
-import { SunIcon } from '@heroicons/react/solid';
+import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import LeftBar from './leftbar';
 import RightBar from './rightbar';
+import { FirebaseStorage, getStorage } from 'firebase/storage';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDbxrdE4Yh-4CVNrtcUT3jrGgn_uiOcmd8",
@@ -20,12 +20,15 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const storage = getStorage(app);
 let analytics;
 if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
     analytics = getAnalytics(app);
 }
 
-const LayoutContext = React.createContext<{ app: FirebaseApp, db: Firestore }>({ app, db });
+const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
+
+const LayoutContext = React.createContext<{ app: FirebaseApp, db: Firestore, storage: FirebaseStorage }>({ app, db, storage });
 
 type LayoutProps = {
     children: React.ReactNode;
@@ -38,8 +41,6 @@ export default function Layout({ children }: LayoutProps) {
         if (didRunRef.current === false) {
             didRunRef.current = true;
 
-            console.log('Layout/useEffect');
-
             const auth = getAuth();
             onAuthStateChanged(auth, (user) => {
                 if (user) {
@@ -49,7 +50,7 @@ export default function Layout({ children }: LayoutProps) {
                     if (!auth.currentUser) {
                         signInAnonymously(auth)
                             .then(() => {
-                                console.log('Layout/useEffect/onAuthStateChanged/signInAnonymously', auth.currentUser);
+                                // console.log('Layout/useEffect/onAuthStateChanged/signInAnonymously', auth.currentUser);
                             })
                             .catch((error) => {
                                 const errorCode = error.code;
@@ -62,6 +63,20 @@ export default function Layout({ children }: LayoutProps) {
         }
     }, []);
 
+    const didRunLERef = useRef(false);
+    useIsomorphicLayoutEffect(() => {
+        if (didRunLERef.current === false) {
+            didRunLERef.current = true;
+            if (typeof window !== 'undefined' && typeof window.navigator !== 'undefined') {
+                if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+                    document.documentElement.classList.add('dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                }
+            }
+        }
+    }, []);
+
     return (
         <>
             <Head>
@@ -69,7 +84,7 @@ export default function Layout({ children }: LayoutProps) {
                 <meta name="description" content="My landing page" />
                 <link rel="icon" href="/favicon.ico" />
             </Head>
-            <LayoutContext.Provider value={{ app, db }}>
+            <LayoutContext.Provider value={{ app, db, storage }}>
                 <LeftBar />
                 <RightBar />
                 <div>
