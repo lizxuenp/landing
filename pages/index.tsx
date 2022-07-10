@@ -39,7 +39,7 @@ const Home: NextPage = () => {
             postDocs.forEach((doc) => {
               postsData.push({ ...doc.data(), id: doc.id });
             });
-            console.log(postsData);
+            // console.log(postsData);
             setPosts(postsData);
           }
           getPosts();
@@ -81,8 +81,8 @@ const Home: NextPage = () => {
           <div className='h-[160px] w-full relative'>
             <Image src={sec} alt='sec' layout='fill' objectFit='cover' className='rounded-3xl' />
           </div>
-          <div className='flex items-center justify-between h-[40px] px-4'>
-            <Like like={false} user={currentUser} />
+          <div className='flex items-center justify-end h-[40px] px-4'>
+            {/* <Like likedBy={['']} user={currentUser} /> */}
             <DotsCircleHorizontalIcon className='h-6 cursor-pointer text-gray-300 hover:text-yellow-liz' onClick={() => router.push('/security')} />
           </div>
         </div>
@@ -91,14 +91,14 @@ const Home: NextPage = () => {
           <div className='h-[160px] w-full relative'>
             <Image src={IOT} alt='IOT' layout='fill' objectFit='cover' className='rounded-3xl' />
           </div>
-          <div className='flex items-center justify-between h-[40px] px-4'>
-            <Like like={false} user={currentUser} />
+          <div className='flex items-center justify-end h-[40px] px-4'>
+            {/* <Like likedBy={['']} user={currentUser} /> */}
             <DotsCircleHorizontalIcon className='h-6 cursor-pointer text-gray-300 hover:text-yellow-liz' onClick={() => router.push('/')} />
           </div>
         </div>
 
         {
-          currentUser && posts.map((item) => <Post key={`${item.id}`} user={currentUser} imgref={item.imgref} link={item.link} />)
+          currentUser && posts.map((item) => <Post key={`${item.id}`} user={currentUser} imgref={item.imgref} link={item.link} postId={item.id} likedBy={item.likedBy} />)
         }
       </div>
 

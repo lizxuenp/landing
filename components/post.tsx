@@ -7,7 +7,7 @@ import { User } from "firebase/auth";
 import Image from "next/image";
 import Like from "./like";
 
-export default function Post({ user, imgref, link }: { user: User, imgref: string, link: string }) {
+export default function Post({ user, imgref, link, postId, likedBy }: { user: User, imgref: string, link: string, postId: string, likedBy: string[] }) {
     const router = useRouter();
     const context = useContext(LayoutContext);
     const didRunRef = useRef(false);
@@ -17,13 +17,14 @@ export default function Post({ user, imgref, link }: { user: User, imgref: strin
     useEffect(() => {
         if (didRunRef.current === false) {
             didRunRef.current = true;
-            getDownloadURL(ref(context.storage, imgref))
-                .then((imgURL) => {
-                    setUrl(imgURL);
-                })
-                .catch((error) => {
-                    console.log(error);
-                });
+            // getDownloadURL(ref(context.storage, imgref))
+            //     .then((imgURL) => {
+            //         setUrl(imgURL);
+            //     })
+            //     .catch((error) => {
+            //         console.log(error);
+            //     });
+            setUrl('/online.jpg');
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -45,7 +46,7 @@ export default function Post({ user, imgref, link }: { user: User, imgref: strin
                             }
                         </div>
                         <div className='flex items-center justify-between h-[40px] px-4'>
-                            <Like like={false} user={user} />
+                            <Like postId={postId} likedBy={likedBy} user={user} />
                             <DotsCircleHorizontalIcon className='h-6 cursor-pointer text-gray-300 hover:text-yellow-liz' onClick={() => router.push(link)} />
                         </div>
                     </>
