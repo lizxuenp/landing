@@ -7,7 +7,7 @@ import { User } from "firebase/auth";
 import Image from "next/image";
 import Like from "./like";
 
-export default function Card({ user, imgUri }: { user: User, imgUri: string }) {
+export default function Post({ user, imgref, link }: { user: User, imgref: string, link: string }) {
     const router = useRouter();
     const context = useContext(LayoutContext);
     const didRunRef = useRef(false);
@@ -17,7 +17,7 @@ export default function Card({ user, imgUri }: { user: User, imgUri: string }) {
     useEffect(() => {
         if (didRunRef.current === false) {
             didRunRef.current = true;
-            getDownloadURL(ref(context.storage, imgUri))
+            getDownloadURL(ref(context.storage, imgref))
                 .then((imgURL) => {
                     setUrl(imgURL);
                 })
@@ -32,8 +32,8 @@ export default function Card({ user, imgUri }: { user: User, imgUri: string }) {
             {
                 url !== '' ?
                     <>
-                        <div className='h-[160px] w-full relative cursor-pointer' onClick={() => router.push('/quote')}>
-                            <Image src={url} alt='quote' layout='fill' objectFit='cover' className='rounded-3xl' onLoadingComplete={() => setLoadingComplete(true)} />
+                        <div className='h-[160px] w-full relative'>
+                            <Image src={url} alt={link} layout='fill' objectFit='cover' className='rounded-3xl' onLoadingComplete={() => setLoadingComplete(true)} />
                             {
                                 !loadingComplete &&
                                 <div className='h-full w-full flex items-center justify-center absolute z-50 top-0'>
@@ -46,7 +46,7 @@ export default function Card({ user, imgUri }: { user: User, imgUri: string }) {
                         </div>
                         <div className='flex items-center justify-between h-[40px] px-4'>
                             <Like like={false} user={user} />
-                            <DotsCircleHorizontalIcon className='h-6 cursor-pointer text-gray-300 hover:text-yellow-liz' onClick={() => router.push('/quote')} />
+                            <DotsCircleHorizontalIcon className='h-6 cursor-pointer text-gray-300 hover:text-yellow-liz' onClick={() => router.push(link)} />
                         </div>
                     </>
                     :
