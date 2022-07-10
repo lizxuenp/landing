@@ -12,9 +12,40 @@ import Link from 'next/link';
 import Like from '../components/like';
 import { useRouter } from 'next/router';
 import Card from '../components/card';
+import { useEffect, useRef, useState } from 'react';
+import { getAuth, onAuthStateChanged, User } from 'firebase/auth';
 
 const Home: NextPage = () => {
   const router = useRouter();
+  const [currentUser, setCurentUser] = useState<User | null>(null);
+  const didRunRef = useRef(false);
+
+  useEffect(() => {
+    if (didRunRef.current === false) {
+      didRunRef.current = true;
+      // console.log('index/useEffect');
+      const auth = getAuth();
+      let unsub = onAuthStateChanged(auth, (user) => {
+        if (user) {
+          // console.log('index/useEffect/setCurentUser(user)');
+          setCurentUser(user);
+        } else {
+          // console.log('index/useEffect/setCurentUser(null)');
+          setCurentUser(null);
+        }
+      });
+      return unsub();
+    }
+  }, []);
+
+  const cardData = [
+    {
+      imgUri: 'posts/photo-1492376791813-ee6dbb35caa3.avif'
+    },
+    {
+      imgUri: 'posts/764254.png'
+    },
+  ];
 
   return (
     <div className='space-y-6 pb-8'>
@@ -35,8 +66,8 @@ const Home: NextPage = () => {
 
         </div>
       </div>
-      <div>
-        <BeakerIcon className='h-8 pl-10 text-fuchsia-400' />
+      <div className='flex items-center gap-2'>
+        <BeakerIcon className='h-8 pl-10 text-fuchsia-400' /><div className='text-xl font-bold dark:text-white-liz'>Exp</div>
       </div>
       <div className='flex flex-col md:grid md:grid-cols-2 lg:grid-cols-3 gap-6 px-8'>
 
@@ -54,29 +85,18 @@ const Home: NextPage = () => {
           </div>
         </div>
 
-        <div className='bg-white rounded-3xl h-[200px]'>
-          <div className='bg-blue-liz rounded-3xl h-[160px]'>
-
-          </div>
-        </div>
-
         <div className='bg-white dark:bg-gray-700 shadow-md dark:shadow-xl rounded-3xl h-[200px]'>
           <div className='h-[160px] w-full relative cursor-pointer' onClick={() => router.push('/quote')}>
             <Image src={quote} alt='quote' layout='fill' objectFit='cover' className='rounded-3xl' />
           </div>
           <div className='flex items-center justify-between h-[40px] px-4'>
-            <Like like={false} />
+            <Like like={false} user={currentUser} />
             <DotsCircleHorizontalIcon className='h-6 cursor-pointer text-gray-300 hover:text-yellow-liz' onClick={() => router.push('/quote')} />
           </div>
         </div>
-
-        <div className='bg-white rounded-3xl h-[200px]'>
-          <div className='bg-blue-liz rounded-3xl h-[160px]'>
-
-          </div>
-        </div>
-
-        <Card />
+        {
+          currentUser && cardData.map((item, idx) => <Card key={`card-${idx}`} user={currentUser} imgUri={item.imgUri} />)
+        }
       </div>
 
     </div>

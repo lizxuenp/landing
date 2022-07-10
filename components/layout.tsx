@@ -7,6 +7,7 @@ import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import LeftBar from './leftbar';
 import RightBar from './rightbar';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
+import { unstable_batchedUpdates, unstable_renderSubtreeIntoContainer } from 'react-dom';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDbxrdE4Yh-4CVNrtcUT3jrGgn_uiOcmd8",
@@ -37,16 +38,16 @@ type LayoutProps = {
 export default function Layout({ children }: LayoutProps) {
     const didRunRef = useRef(false);
 
-    useEffect(() => {
+    useIsomorphicLayoutEffect(() => {
         if (didRunRef.current === false) {
             didRunRef.current = true;
 
             const auth = getAuth();
-            onAuthStateChanged(auth, (user) => {
+            let unsub = onAuthStateChanged(auth, (user) => {
                 if (user) {
-                    console.log('Layout/useEffect/onAuthStateChanged/logged-in', user);
+                    // console.log('Layout/useEffect/onAuthStateChanged/logged-in', user);
                 } else {
-                    console.log('Layout/useEffect/onAuthStateChanged/logged-out');
+                    // console.log('Layout/useEffect/onAuthStateChanged/logged-out');
                     if (!auth.currentUser) {
                         signInAnonymously(auth)
                             .then(() => {
@@ -60,6 +61,7 @@ export default function Layout({ children }: LayoutProps) {
                     }
                 }
             });
+            return unsub();
         }
     }, []);
 

@@ -1,10 +1,12 @@
 import { HeartIcon } from '@heroicons/react/solid';
+import { User } from 'firebase/auth';
 import { useState } from 'react';
 type LikeProps = {
     like: boolean;
+    user: User | null;
 }
 
-export default function Like({ like }: LikeProps) {
+export default function Like({ like, user }: LikeProps) {
     const [liked, setLiked] = useState<boolean>(like);
     const handleClick = () => {
         setLiked(prev => !prev);
