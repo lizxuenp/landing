@@ -17,14 +17,14 @@ export default function Post({ user, imgref, link, postId, likedBy }: { user: Us
     useEffect(() => {
         if (didRunRef.current === false) {
             didRunRef.current = true;
-            // getDownloadURL(ref(context.storage, imgref))
-            //     .then((imgURL) => {
-            //         setUrl(imgURL);
-            //     })
-            //     .catch((error) => {
-            //         console.log(error);
-            //     });
-            setUrl('/online.jpg');
+            getDownloadURL(ref(context.storage, imgref))
+                .then((imgURL) => {
+                    setUrl(imgURL);
+                })
+                .catch((error) => {
+                    console.log(error);
+                });
+            // setUrl('/online.jpg');
         }
     }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
