@@ -7,7 +7,7 @@ import React, { useEffect, useLayoutEffect, useRef } from 'react';
 import LeftBar from './leftbar';
 import RightBar from './rightbar';
 import { FirebaseStorage, getStorage } from 'firebase/storage';
-import { unstable_batchedUpdates, unstable_renderSubtreeIntoContainer } from 'react-dom';
+import Link from 'next/link';
 
 const firebaseConfig = {
     apiKey: "AIzaSyDbxrdE4Yh-4CVNrtcUT3jrGgn_uiOcmd8",
@@ -91,8 +91,13 @@ export default function Layout({ children }: LayoutProps) {
                 <RightBar />
                 <div>
                     <div className='h-screen overflow-y-scroll scrollbar-hide'>
+
                         <div className='flex items-center pl-[64px]'>
-                            <div className='text-[72px] text-black-liz hover:text-yellow-liz dark:text-white-liz dark:hover:text-yellow-liz font-moo-lah-lah  cursor-pointer'>liz</div>
+                            <Link href='/'>
+                                <a>
+                                    <div className='text-[72px] text-black-liz hover:text-yellow-liz dark:text-white-liz dark:hover:text-yellow-liz font-moo-lah-lah  cursor-pointer'>liz</div>
+                                </a>
+                            </Link>
                         </div>
                         <div className='px-[120px]'>
                             {children}
